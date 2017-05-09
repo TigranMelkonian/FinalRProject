@@ -450,4 +450,32 @@ ggplot(data = finalGraph3, aes(x=Year, y=Unintentional, group=1)) +
   ggtitle( "Number of Incidents caused by Unintentional Actions onset by gas power sources")+
   geom_smooth(method = "lm", se=FALSE, color="black", aes(group=1))
 ##############################################################################################################
+## want to set up data sto that we can show the clustering of which factors leading to electrical malfunctions
+kmeansData <- subset(electricalFail1, select = c(INC_DATE,
+                                      FACT_IGN_1))
+
+kmeansPlot <- data.table(table(kmeansData[ , c("INC_DATE","FACT_IGN_1")])) ## this counts the nuber of occurances of each factor per year, and appends the sum total of each factor to the dataset
+colnames(kmeansPlot) <- c("Year", "ignitionFactor", "NumberOfOccurances")
+ggplot( kmeansPlot, aes(x= Year, y= NumberOfOccurances, color = ignitionFactor)) + ## assigning x and y vairables , the group =1 just tells ggplot to connect the points
+  geom_point()  ## adding aesthetic attributes to graphed trend lin
+
+##
+
+##Clustering
+##Okay, now that we have seen the data, let us try to
+##cluster it. Since the initial cluster assignments 
+##are random, let us set the seed to ensure reproducibility.
+set.seed(20)
+kmeansPlotCluster <- kmeans(kmeansPlot[,1:2], 8,nstart = 20)
+kmeansPlotCluster
+##Since we know that there are 8 factors involved, we ask the algorithm to group the data into 8 clusters, and since the starting assignments are random, we specify nstart = 20. This means that R will try 20 different random starting assignments and then select the one with the lowest within cluster variation.
+##We can see the cluster centroids, the clusters that each data point was assigned to, and the within cluster variation.
+
+table(kmeansPlotCluster$cluster, kmeansPlot$ignitionFactor)
+
+kmeansPlotCluster$cluster <- as.factor(kmeansPlotCluster$cluster)
+ggplot(kmeansPlot, aes(x = Year, y = NumberOfOccurances, color = kmeansPlotCluster$cluster)) + 
+  geom_point(size=4, shape=18)+
+  geom_text(aes(label=ignitionFactor),hjust=0, vjust=0)
+
 
