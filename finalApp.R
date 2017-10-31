@@ -1,5 +1,5 @@
 ############
-############ this is an application to provide a sample of the datasets I was mainly working with
+############ this is an application to provide a sample of the datasets I was mainly working 
 library(shiny)
 
 # Define UI for application
