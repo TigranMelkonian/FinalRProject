@@ -1,3 +1,2 @@
 # FinalRProject
-Final R Project 
 The purpose of this project was to gain experience in using R for MA415(Data  Science in R) analyze whether or not there was an increase in the number of fires caused by electrical malfunctions. I used data from the National Fire Incident Reporting System (FIRS) to investigate causes of fatal residential fires in the period 2006 - 2015. I mainly explore the data related to residential fires. Throughout the project I use R(tidyr,dplyr,foreign,ggplot2,stringr,and data.table) to showcase graphical techniques, statistical methods, and two interactive web apps (shiny).
